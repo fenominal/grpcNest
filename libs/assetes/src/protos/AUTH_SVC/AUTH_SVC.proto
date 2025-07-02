@@ -1,0 +1,24 @@
+// hero/hero.proto
+syntax = "proto3";
+
+package AUTH_SVC;
+
+service AUTHService {
+  rpc logIn (logInRequest) returns (logInResponse) {}
+}
+
+message logInRequest {
+  string userName = 1;
+  string password = 2;
+}
+
+message logInResponse {
+  logInData data=1;
+  string message=2;
+  repeated string error=3;
+  int32 status=4;
+}
+
+message logInData {
+    string token = 1;
+}

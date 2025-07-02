@@ -1,0 +1,11 @@
+serve:
+  port: 50001
+  fork: 1
+  endpoint: /api
+sources:
+  - name: PROJECT1
+    handler:
+      grpc:
+        endpoint: localhost:60001
+        metaData:
+          Authorization: ["headers", "authorization"]

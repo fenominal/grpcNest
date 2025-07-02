@@ -1,0 +1,17 @@
+serve:
+  port: 40001
+  playground: false
+plugins:
+  - sofa:
+      basePath: /
+      swaggerUIEndpoint: /doc
+      info:
+        title: 'Hero API'
+        version: '1.0.0'
+sources:
+  - name: PROJECT1
+    handler:
+      grpc:
+        endpoint: localhost:60001
+        metaData:
+          Authorization: ["headers", "authorization"]

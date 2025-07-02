@@ -1,0 +1,87 @@
+schema @transport(subgraph: "Hero", kind: "grpc", location: "localhost:3000", options: {requestTimeout: 200000, metaData: {Authorization: ["headers", "authorization"]}, roots: [{name: "Root0", rootJson: "{\"nested\":{\"PROJECT1\":{\"nested\":{\"getFirstCommandRequest\":{\"fields\":{},\"comment\":null},\"getFirstCommandResponse\":{\"fields\":{\"data\":{\"type\":\"string\",\"id\":1},\"message\":{\"type\":\"string\",\"id\":2},\"error\":{\"rule\":\"repeated\",\"type\":\"string\",\"id\":3},\"status\":{\"type\":\"int32\",\"id\":4}},\"comment\":null},\"HeroById\":{\"fields\":{\"id\":{\"type\":\"int32\",\"id\":1}},\"comment\":null},\"nestedType\":{\"fields\":{\"data\":{\"type\":\"Hero\",\"id\":1}},\"comment\":null},\"Hero\":{\"oneofs\":{\"_error\":{\"oneof\":[\"error\"]}},\"fields\":{\"id\":{\"type\":\"int32\",\"id\":1},\"name\":{\"type\":\"string\",\"id\":2},\"error\":{\"type\":\"string\",\"id\":3}},\"comment\":null},\"Empty\":{\"fields\":{},\"comment\":null},\"HeroArray\":{\"fields\":{\"hero\":{\"rule\":\"repeated\",\"type\":\"Hero\",\"id\":1}},\"comment\":null},\"EnumType\":{\"fields\":{\"payment\":{\"type\":\"PAYMENT_SYSTEM\",\"id\":1}},\"nested\":{\"PAYMENT_SYSTEM\":{\"values\":{\"CASH\":0,\"CREDIT_CARD\":1,\"DEBIT_CARD\":2,\"APP\":3},\"comments\":{}}},\"comment\":null},\"test\":{\"fields\":{\"hello\":{\"type\":\"string\",\"id\":1}},\"comment\":null},\"PROJECT1Service\":{\"methods\":{\"FindOne\":{\"requestType\":\".PROJECT1.HeroById\",\"responseType\":\".PROJECT1.Hero\"},\"array\":{\"requestType\":\".PROJECT1.Empty\",\"responseType\":\".PROJECT1.HeroArray\"},\"findMany\":{\"requestType\":\".PROJECT1.HeroById\",\"responseType\":\".PROJECT1.HeroArray\"},\"nested\":{\"requestType\":\".PROJECT1.Empty\",\"responseType\":\".PROJECT1.nestedType\"},\"enum\":{\"requestType\":\".PROJECT1.Empty\",\"responseType\":\".PROJECT1.EnumType\"},\"getFirstCommand\":{\"requestType\":\".PROJECT1.getFirstCommandRequest\",\"responseType\":\".PROJECT1.getFirstCommandResponse\"}},\"comment\":null}}}}}"}]}) {
+  query: Query
+  mutation: Mutation
+}
+
+directive @enum(subgraph: String, value: String) on ENUM_VALUE
+
+directive @grpcMethod(subgraph: String, rootJsonName: String, objPath: String, methodName: String, responseStream: Boolean) on FIELD_DEFINITION
+
+directive @grpcConnectivityState(subgraph: String, rootJsonName: String, objPath: String) on FIELD_DEFINITION
+
+"""
+Directs the executor to stream plural fields when the `if` argument is true or undefined.
+"""
+directive @stream(
+  """Stream when true or undefined."""
+  if: Boolean! = true
+  """Unique name"""
+  label: String
+  """Number of items to return immediately"""
+  initialCount: Int = 0
+) on FIELD
+
+directive @transport(subgraph: String, kind: String, location: String, options: TransportOptions) repeatable on SCHEMA
+
+type Query {
+  PROJECT1_PROJECT1Service_getFirstCommand(input: PROJECT1__getFirstCommandRequest_Input): PROJECT1__getFirstCommandResponse @grpcMethod(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service", methodName: "getFirstCommand", responseStream: false)
+  PROJECT1_PROJECT1Service_connectivityState(tryToConnect: Boolean): ConnectivityState @grpcConnectivityState(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service")
+}
+
+type PROJECT1__getFirstCommandResponse {
+  data: String
+  message: String
+  error: [String]
+  status: Int
+}
+
+scalar PROJECT1__getFirstCommandRequest_Input @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+enum ConnectivityState {
+  IDLE
+  CONNECTING
+  READY
+  TRANSIENT_FAILURE
+  SHUTDOWN
+}
+
+type Mutation {
+  PROJECT1_PROJECT1Service_FindOne(input: PROJECT1__HeroById_Input): PROJECT1__Hero @grpcMethod(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service", methodName: "FindOne", responseStream: false)
+  PROJECT1_PROJECT1Service_array(input: PROJECT1__Empty_Input): PROJECT1__HeroArray @grpcMethod(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service", methodName: "array", responseStream: false)
+  PROJECT1_PROJECT1Service_findMany(input: PROJECT1__HeroById_Input): PROJECT1__HeroArray @grpcMethod(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service", methodName: "findMany", responseStream: false)
+  PROJECT1_PROJECT1Service_nested(input: PROJECT1__Empty_Input): PROJECT1__nestedType @grpcMethod(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service", methodName: "nested", responseStream: false)
+  PROJECT1_PROJECT1Service_enum(input: PROJECT1__Empty_Input): PROJECT1__EnumType @grpcMethod(subgraph: "Hero", rootJsonName: "Root0", objPath: "PROJECT1.PROJECT1Service", methodName: "enum", responseStream: false)
+}
+
+type PROJECT1__Hero {
+  id: Int
+  name: String
+  error: String
+}
+
+input PROJECT1__HeroById_Input {
+  id: Int
+}
+
+type PROJECT1__HeroArray {
+  hero: [PROJECT1__Hero]
+}
+
+scalar PROJECT1__Empty_Input @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type PROJECT1__nestedType {
+  data: PROJECT1__Hero
+}
+
+type PROJECT1__EnumType {
+  payment: PROJECT1__EnumType__PAYMENT_SYSTEM
+}
+
+enum PROJECT1__EnumType__PAYMENT_SYSTEM {
+  CASH @enum(subgraph: "Hero", value: "0")
+  CREDIT_CARD @enum(subgraph: "Hero", value: "1")
+  DEBIT_CARD @enum(subgraph: "Hero", value: "2")
+  APP @enum(subgraph: "Hero", value: "3")
+}
+
+scalar TransportOptions
