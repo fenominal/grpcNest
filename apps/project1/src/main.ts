@@ -12,8 +12,6 @@ const svcList = getAllSVC();
 
 async function bootstrap() {
   const { port, proto } = getServiceConfig(svcList.project1);
-
-  console.log(getServiceConfig(svcList.project1));
   
   const app: INestMicroservice =
     await NestFactory.createMicroservice<MicroserviceOptions>(

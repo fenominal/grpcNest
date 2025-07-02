@@ -7,7 +7,7 @@ import {
 
 import { FindOneModule } from './find-one/find-one.module';
 import { GetFirstQueryModule } from './get-first-query/get-first-query.module';
-import { getAllSVC } from '@app/assetes';
+import {  getAllSVC } from '@app/assetes';
 import { returnGRpcReflaction } from '@app/assetes/commanFunctions/getGrpcTranport';
 import { OrmModule } from 'common/common/orm/orm.module';
 

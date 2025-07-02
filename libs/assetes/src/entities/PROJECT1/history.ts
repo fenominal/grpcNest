@@ -28,22 +28,4 @@ export class Entity_PROJECT1_History extends BaseEntity {
   @IsDefined()
   @Length(8, 8)
   public id!: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  locationId: string;
-
-  @Column({ type: 'jsonb', nullable: true, default: [] })
-  message!: [];
-
-  @Column({ type: 'bool', nullable: true, default: false })
-  isDeleted: boolean;
-
-  @Column({ type: 'bool', nullable: true })
-  isSent: boolean;
-
-  @CreateDateColumn({ type: 'timestamp with time zone', name: 'created_at' })
-  public createdAt: Date;
-
-  @CreateDateColumn({ type: 'timestamp with time zone', name: 'updated_at' })
-  public updatedAt: Date;
 }

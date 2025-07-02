@@ -18,6 +18,7 @@ export class CommonModule {
       module: RootCommonModule,
       providers: [{ provide: 'CONFIG_OPTIONS', useValue: { ...options } }],
       imports: [CommonModule, OrmModule.forRoot(options.svcName)],
+      exports:[CommonModule, OrmModule.forRoot(options.svcName)]
     };
   }
 }

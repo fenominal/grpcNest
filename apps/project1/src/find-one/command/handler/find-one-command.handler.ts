@@ -17,16 +17,14 @@ const svcList = getAllSVC();
 export class FindOneCommandHandler
   implements ICommandHandler<FindOneCommandImpl>
 {
-  constructor(private readonly eventBus: EventBus) {}
+  constructor(
+    private readonly eventBus: EventBus,
+  ) {}
 
   async execute(command: FindOneCommandImpl) {
     console.log('hiii from command', command);
 
-    await createRecord('project1', 'users', {
-      name: 'ayush',
-      email: 'aaa',
-      age: 10,
-    });
+    // console.log(await this.userRepo.find())
 
     this.oneCommandExcute(command);
 
@@ -41,6 +39,7 @@ export class FindOneCommandHandler
   async oneCommandExcute(command: FindOneCommandImpl) {
     const { data, metadata } = command?.payload;
     this.eventBus.publish(new findOneEvenetImpl(data, metadata));
+    // const makeNEwmodel = new entiteModel(data)
 
     // const hero = this.publisher.mergeObjectContext(
     //   await this.repository.findOneById(+heroId),

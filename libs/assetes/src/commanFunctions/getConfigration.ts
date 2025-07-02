@@ -19,7 +19,6 @@ export function getServiceConfig(servicePrefix: string): ServiceConfig {
       proto: '30000',
     };
   }
-console.log(envPrefix)
   const PROT = process.env[`${envPrefix}_PROT`];
   const HOST = process.env[`${envPrefix}_HOST`];
   const PROTO = process.env[`${envPrefix}_PROTO`];

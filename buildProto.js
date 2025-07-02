@@ -19,9 +19,6 @@ services.forEach(service => {
         
 
         const string = `npx protoc --plugin=protoc-gen-ts=node_modules/.bin/protoc-gen-ts_proto -I=${protoBasePath} --ts_proto_out=${path.join(protoBasePath)}  --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --ts_proto_opt=exportCommonSymbols=false --ts_proto_opt=addNestjsRestParameter=true --ts_proto_opt=nestJs=true --ts_proto_opt=addGrpcMetadata=true --experimental_allow_proto3_optional --ts_proto_opt=snakeToCamel=false ${protoPath} `
-        console.log('----------------')
-        console.log(string)
-        console.log('----------------')
         try {
             execSync(string, { stdio: 'inherit' });
             console.log(`Successfully generated pb.ts for ${service}`);
